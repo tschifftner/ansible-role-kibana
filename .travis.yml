@@ -13,7 +13,11 @@ before_install:
 
 install:
   # Install Ansible.
-  - pip install ansible
+  - apt-get install python-pip python-dev git -y
+  - pip install PyYAML jinja2 paramiko
+  - git clone https://github.com/ansible/ansible.git /opt/ansible
+  - cd /opt/ansible && make install
+  - mkdir /etc/ansible
 
   # Add ansible.cfg to pick up roles path.
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
@@ -22,15 +26,15 @@ install:
   - pip install ansible-lint
 
   # Install requirements
-  - ansible-galaxy install tschifftner.ansible-source
+  #- ansible-galaxy install tschifftner.ansible-source
 
 script:
   # Check the role/playbook's syntax.
-  - "ansible-playbook -i tests/inventory tests/prepare.yml --syntax-check"
+  #- "ansible-playbook -i tests/inventory tests/prepare.yml --syntax-check"
   - "ansible-playbook -i tests/inventory tests/$SITE --syntax-check"
 
   # Prepare by installing required ansible 2.0.0
-  - "ansible-playbook -i tests/inventory tests/prepare.yml --connection=local --sudo"
+  #- "ansible-playbook -i tests/inventory tests/prepare.yml --connection=local --sudo"
 
   - ansible --version
 

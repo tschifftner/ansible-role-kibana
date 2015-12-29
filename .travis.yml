@@ -32,6 +32,8 @@ script:
   # Prepare by installing required ansible 2.0.0
   - "ansible-playbook -i tests/inventory tests/prepare.yml --connection=local --sudo"
 
+  - ansible --version
+
   # Run the role/playbook with ansible-playbook.
   - "ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo"
 

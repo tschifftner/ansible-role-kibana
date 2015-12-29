@@ -1,0 +1,17 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: Tobias Schifftner
+  description: Installs ansible from source on Debian/Ubuntu linux servers. This allows to use ansible 2.0.0+
+  company: ambimax® GmbH
+  license: MIT
+  min_ansible_version: 2.0
+  platforms:
+  - name: Debian
+    versions:
+    - jessie
+  galaxy_tags:
+    - debian
+    - kinban
+    - elk

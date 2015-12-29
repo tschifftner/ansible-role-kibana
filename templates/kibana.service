@@ -1,0 +1,15 @@
+[Unit]
+Description=Kibana 4 Web Interface
+After=elasticsearch.service
+After=logstash.service
+
+[Service]
+ExecStartPre=rm -rf {{ kibana_pid_file }}
+ExecStart={{ kibana_exec }}
+ExecReload=kill -9 $(cat {{ kibana_pid_file }}) && rm -rf {{ kibana_pid_file }} && {{ kibana_exec }}
+ExecStop=kill -9 $(cat {{ kibana_pid_file }})
+User={{ kibana_user }}
+Group={{ kibana_group }}
+
+[Install]
+WantedBy=multi-user.target

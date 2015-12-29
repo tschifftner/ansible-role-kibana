@@ -1,0 +1,10 @@
+---
+kibana_workspace: "/opt/kibana"
+kibana_user: "kibana"
+kibana_group: "kibana"
+kibana_pid_file: "/var/run/kibana.pid"
+kibana_server_port: "5601"
+kibana_server_host: "0.0.0.0"
+kibana_chmod: "0760"
+kibana_current_dir: "current"
+kibana_executable: "bin/kibana"

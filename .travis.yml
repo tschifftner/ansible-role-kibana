@@ -13,11 +13,7 @@ before_install:
 
 install:
   # Install Ansible.
-  - sudo apt-get install python-pip python-dev git -y
-  - sudo pip install PyYAML jinja2 paramiko
-  - sudo git clone https://github.com/ansible/ansible.git /opt/ansible
-  - cd /opt/ansible && sudo make install
-  - sudo mkdir /etc/ansible
+  - pip install https://github.com/ansible/ansible/archive/devel.zip
 
   # Add ansible.cfg to pick up roles path.
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"

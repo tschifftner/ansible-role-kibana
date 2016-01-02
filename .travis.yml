@@ -13,7 +13,7 @@ before_install:
 
 install:
   # Install Ansible.
-  - pip install https://github.com/ansible/ansible/archive/devel.zip
+  - pip install https://github.com/ansible/ansible/archive/v2.0.0-0.8.rc3.zip
 
   # Add ansible.cfg to pick up roles path.
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
@@ -33,6 +33,8 @@ script:
   #- "ansible-playbook -i tests/inventory tests/prepare.yml --connection=local --sudo"
 
   - ansible --version
+
+  - pwd
 
   # Run the role/playbook with ansible-playbook.
   - "ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo"

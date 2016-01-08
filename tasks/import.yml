@@ -1,0 +1,19 @@
+---
+
+- name: 'Send kibana files to server'
+  register: kibana_import_updates
+  copy:
+    src: "{{ item }}"
+    dest: "{{ kibana_workspace }}/{{ item }}"
+  with_items: kibana_es_import_files
+
+- name: 'Import data into elasticsearch'
+  sudo: true
+  shell: >
+    elasticdump
+      --input={{ kibana_workspace }}/{{ item }}
+      --output={{ elasticsearch_master_url }}/.kibana
+      --type=data
+  with_items: kibana_es_import_files
+  when: kibana_import_updates.changed
+

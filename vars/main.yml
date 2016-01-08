@@ -8,3 +8,10 @@ kibana_server_host: "0.0.0.0"
 kibana_chmod: "0760"
 kibana_current_dir: "current"
 kibana_executable: "bin/kibana"
+kibana_es_import_files:
+  - kibana-dashboards.json
+  - kibana-searches.json
+  - kibana-visualizations.json
+kibana_npm_packages:
+  - npm_global_packages
+npm_global_packages: "{{ npm_global_packages | default([]) }} + kibana_npm_packages"

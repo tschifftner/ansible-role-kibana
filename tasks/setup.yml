@@ -1,0 +1,84 @@
+---
+- name: Create kibana user group
+  group:
+    name: "{{ kibana_group }}"
+    system: true
+    state: "present"
+
+- name: Create service account for Kibana
+  user:
+    name: "{{ kibana_user }}"
+    system: "yes"
+    home: "{{ kibana_workspace }}"
+    shell: "/bin/false"
+    group: "{{ kibana_group }}"
+    state: "present"
+
+- name: Ensure kibana_workspace directory exists
+  file:
+    path: "{{ kibana_workspace }}"
+    state: "directory"
+    owner: "{{ kibana_user }}"
+    group: "{{ kibana_group }}"
+    mode: "{{ kibana_chmod }}"
+
+- name: Download Kibana
+  get_url:
+    url: "{{ kibana_download_url }}"
+    dest: "{{ kibana_workspace }}/{{ kibana_download_url | basename }}"
+    checksum: "{{ kibana_download_checksum }}"
+    owner: "{{ kibana_user }}"
+    group: "{{ kibana_group }}"
+    mode: "{{ kibana_chmod }}"
+
+- name: Set some dynamic variables
+  set_fact:
+    kibana_folder_name: "{{ kibana_download_url | basename | replace('.tar.gz', '') }}"
+    kibana_exec: "{{ kibana_workspace }}/{{ kibana_current_dir }}/{{ kibana_executable }}"
+
+- name: Extract Kibana archive
+  unarchive:
+    src: "{{ kibana_workspace }}/{{ kibana_download_url | basename }}"
+    dest: "{{ kibana_workspace }}"
+    copy: "no"
+    creates: "{{ kibana_workspace }}/{{ kibana_folder_name }}"
+    owner: "{{ kibana_user }}"
+    group: "{{ kibana_group }}"
+    mode: "{{ kibana_chmod }}"
+
+- name: Symlink new version
+  file:
+    src: "{{ kibana_workspace }}/{{ kibana_folder_name }}"
+    dest: "{{ kibana_workspace }}/{{ kibana_current_dir }}"
+    state: link
+    force: true
+    owner: "{{ kibana_user }}"
+    group: "{{ kibana_group }}"
+    mode: "755"
+
+- name: Install unit file for systemd
+  sudo: true
+  template:
+    src: "kibana.service"
+    dest: "/lib/systemd/system/"
+    owner: "root"
+    group: "root"
+    mode: "664"
+  notify: reload systemd
+  when: ansible_distribution == 'Debian'
+
+- name: Install unit file for init.d
+  sudo: true
+  template:
+    src: "init.d/kibana4"
+    dest: "/etc/init.d/kibana"
+    owner: "root"
+    group: "root"
+    mode: "751"
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Start
+  service:
+    name: "kibana"
+    state: "started"
+    enabled: "yes"

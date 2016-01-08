@@ -17,7 +17,7 @@ install:
   #- pip install ansible
 
   # Install ansible 2.0+
-  - pip install https://github.com/ansible/ansible/archive/devel.zip
+  - pip install https://github.com/ansible/ansible/archive/v2.0.0-0.9.rc4.zip
 
   # Add ansible.cfg to pick up roles path.
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"

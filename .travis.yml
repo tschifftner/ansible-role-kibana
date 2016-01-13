@@ -5,7 +5,7 @@ sudo: required
 dist: trusty
 
 env:
-  - SITE=test.yml
+  - SITE=test.yml ANSIBLE_VERSION=2.0.0.1
 
 before_install:
   - sudo apt-get update -qq
@@ -14,10 +14,7 @@ before_install:
 
 install:
   # Install Ansible.
-  #- pip install ansible
-
-  # Install ansible 2.0+
-  - pip install https://github.com/ansible/ansible/archive/v2.0.0-0.9.rc4.zip
+  - pip install ansible==$ANSIBLE_VERSION
 
   # Add ansible.cfg to pick up roles path.
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
@@ -25,20 +22,9 @@ install:
   # Install ansible-lint
   - pip install ansible-lint
 
-  # Install requirements
-  #- ansible-galaxy install tschifftner.ansible-source
-
 script:
   # Check the role/playbook's syntax.
-  #- "ansible-playbook -i tests/inventory tests/prepare.yml --syntax-check"
   - "ansible-playbook -i tests/inventory tests/$SITE --syntax-check"
-
-  # Prepare by installing required ansible 2.0.0
-  #- "ansible-playbook -i tests/inventory tests/prepare.yml --connection=local --sudo"
-
-  - ansible --version
-
-  - pwd
 
   # Run the role/playbook with ansible-playbook.
   - "ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo"
@@ -57,6 +43,5 @@ script:
   - curl http://127.0.0.1:5601/app/kibana
 
 notifications:
+  slack: ambimax:2MlPTX9bY9aPxCPhJGxHKIT6
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
-  slack:
-    secure: FWjBPtuL/c1spawTBzoOJohcjcy4iQClUEw/PYhpo1knhOMjigdSNAfipDJ2/EmkEdox6pE24Ow/pJFW6g8FA/O9vxWhD0jIjpSvPzPPsoNOKxYzWQr1kr947pAxaVpKUvQdQbA2xdmpBgl12tPkyR7B4x1paNuFZ9k79accmwp6stvpJgVPiaBE1xRmaYtoDF7EdtWKFswcup9jP2uE6m8ILwNAblmvlv9mJogaQEuiGuPRhZdGSjSYptuyCWBi7dytmE61jF3aoWR8pqnERQmBxSBpcXdzSwdsYsmgzeb87mXXKlvumtPYtDVdXHjZ5hXawQG3FA7nOJBuQ1rjiDCFKYAd+cHA8+W1v//67kP3wdNWy0s5iJ2GrZznntUY6pGuBeVwD4A4rIMMwOzU38C40bf4lDr2YGzbHw/njrybDzn/vd2GHex6zpoEInp8dEon0gKxg5CGIQa+vjQtfKNMbB3u1nLhulh51ntNivz1PiNiZMuQk8I81m5O3Rm6tgj7G7DOGPGreEcdvOe1flkpg0xgF21EzGbqMWvXV5wCsLkzWo2Uxpwf9Q5hWnTrLC20HvBiraw/iLDBS4VgycLG5f3N5KquKEhKwCtRS/cd+X+MOZRtolNOALP1cz12aaG0Bur6VGDLYHr/LbvpOSeU82MAMmWyeUDefY7iIhw=

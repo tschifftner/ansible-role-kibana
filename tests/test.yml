@@ -2,9 +2,5 @@
 - hosts: localhost
   remote_user: root
 
-  vars:
-    kibana_es_import_files:
-      - kibana-dashboards.json
-
   roles:
     - ansible-role-kibana

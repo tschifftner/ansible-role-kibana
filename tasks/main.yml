@@ -4,3 +4,4 @@
 
 - name: Import Dashboards, Searches and Visualizations
   include: import.yml
+  when: kibana_es_import_files | length

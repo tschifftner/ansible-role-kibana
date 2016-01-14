@@ -7,6 +7,13 @@
     dest: "{{ kibana_workspace }}/{{ item }}"
   with_items: kibana_es_import_files
 
+- name: Ensure elasticdump is installed
+  npm:
+    name: 'elasticdump'
+    global: yes
+    state: present
+    production: yes
+
 - name: 'Import data into elasticsearch'
   sudo: true
   shell: >

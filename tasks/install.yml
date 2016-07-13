@@ -54,7 +54,7 @@
     force: true
     owner: "{{ kibana_user }}"
     group: "{{ kibana_group }}"
-    mode: "755"
+    mode: "0755"
 
 - name: Install unit file for systemd
   template:
@@ -62,7 +62,7 @@
     dest: "/lib/systemd/system/"
     owner: "root"
     group: "root"
-    mode: "664"
+    mode: "0664"
   notify: reload systemd
   when: ansible_distribution == 'Debian'
 
@@ -72,7 +72,7 @@
     dest: "/etc/init.d/kibana"
     owner: "root"
     group: "root"
-    mode: "751"
+    mode: "0751"
   when: ansible_distribution == 'Ubuntu'
 
 - name: Start

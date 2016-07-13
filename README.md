@@ -6,7 +6,7 @@ Installs Kibana 4.3.1 from source on Debian/Ubuntu linux servers.
 
 ## Requirements
 
-ansible 2.0+
+None
 
 ## Role Variables
 
@@ -40,10 +40,15 @@ $ ansible-galaxy install tschifftner.kibana
       roles:
         - { role: tschifftner.kibana }
 
+## Supported OS
+Ansible          | Debian Jessie    | Ubuntu 14.04
+:--------------: | :--------------: | :-------------:
+2.1              | Yes              | Yes
+
 ## License
 
 MIT / BSD
 
 ## Author Information
 
- - Tobias Schifftner, @tschifftner
+ - [Tobias Schifftner](https://twitter.com/tschifftner), [ambimax® GmbH](https://www.ambimax.de)

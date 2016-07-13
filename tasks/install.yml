@@ -57,7 +57,6 @@
     mode: "755"
 
 - name: Install unit file for systemd
-  sudo: true
   template:
     src: "kibana.service"
     dest: "/lib/systemd/system/"
@@ -68,7 +67,6 @@
   when: ansible_distribution == 'Debian'
 
 - name: Install unit file for init.d
-  sudo: true
   template:
     src: "init.d/kibana4"
     dest: "/etc/init.d/kibana"

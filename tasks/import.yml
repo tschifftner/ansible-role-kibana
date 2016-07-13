@@ -5,7 +5,7 @@
   copy:
     src: "{{ item }}"
     dest: "{{ kibana_workspace }}/{{ item }}"
-  with_items: kibana_es_import_files
+  with_items: '{{ kibana_es_import_files }}'
 
 - name: Ensure elasticdump is installed
   npm:
@@ -15,12 +15,12 @@
     production: yes
 
 - name: 'Import data into elasticsearch'
-  sudo: true
   shell: >
     elasticdump
       --input={{ kibana_workspace }}/{{ item }}
       --output={{ elasticsearch_master_url }}/.kibana
       --type=data
-  with_items: kibana_es_import_files
+  with_items: '{{ kibana_es_import_files }}'
   when: kibana_import_updates.changed
+  tags: ['skip_ansible_lint']
 

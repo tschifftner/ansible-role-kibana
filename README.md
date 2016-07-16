@@ -47,7 +47,7 @@ Ansible          | Debian Jessie    | Ubuntu 14.04
 
 ## License
 
-MIT / BSD
+[MIT License](http://choosealicense.com/licenses/mit/)
 
 ## Author Information
 
